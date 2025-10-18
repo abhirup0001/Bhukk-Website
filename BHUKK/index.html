@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BHUKK – Kolkata’s Finest Liquor Delivered</title>
+  <style>
+    /* Reset & Base */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Poppins', sans-serif; color: #333; line-height: 1.6; }
+    a { text-decoration: none; color: inherit; }
+
+    /* Age Verification Modal */
+    #ageModal {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center;
+      z-index: 1000; color: white; flex-direction: column; text-align: center;
+    }
+    #ageModal button {
+      margin: 10px; padding: 12px 25px; border: none; border-radius: 5px;
+      font-size: 16px; cursor: pointer;
+    }
+    .yes-btn { background: #27ae60; color: white; }
+    .no-btn { background: #c0392b; color: white; }
+
+    /* Navbar */
+    header {
+      background: rgba(255,255,255,0.9);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 15px 40px; position: sticky; top: 0; z-index: 999;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .logo { font-size: 24px; font-weight: 700; color: #e67e22; }
+    nav ul { display: flex; list-style: none; gap: 25px; font-weight: 700; }
+    .download-btn {
+      background: #e67e22; color: white; padding: 10px 20px;
+      border-radius: 6px; font-weight: 500;
+    }
+
+    /* Hero Section */
+    .hero {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  color: white;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  padding: 0 20px;
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin-bottom: 15px;
+}
+
+.hero p {
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+    /* How It Works */
+    #how-it-works {
+      padding: 40px 20px 20px 20px; text-align: center; background: #f7f7f7;
+    }
+    #how-it-works h2 { font-size: 32px; margin-bottom: 40px; color: #e67e22; }
+    .steps { display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; }
+    .step {
+      background: white; padding: 25px; border-radius: 10px; width: 250px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .step img { width: 60px; margin-bottom: 15px; }
+
+    /* Featured Liquors */
+    .featured {
+      padding: 80px 20px; text-align: center;
+    }
+    .featured h2 { color: #e67e22; margin-bottom: 40px; font-size: 32px; }
+    .products {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px; max-width: 1000px; margin: auto;
+    }
+    .product-card {
+      background: white; border-radius: 10px; overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .product-card img { width: 100%; height: 200px; object-fit: cover; }
+    .product-card .info { padding: 15px; }
+    .product-card h4 { margin-bottom: 5px; }
+
+    /* Partners */
+    #partners {
+      background: #fffaf3; padding: 80px 20px; text-align: center;
+    }
+    #partners h2 { color: #e67e22; margin-bottom: 20px; font-size: 32px; }
+    .partner-points { margin: 20px 0; font-size: 18px; }
+    .partner-btn {
+      display: inline-block; background: #e67e22; color: white;
+      padding: 12px 30px; border-radius: 8px; font-weight: 600;
+    }
+
+    /* Footer */
+    footer {
+      background: #333; color: #ccc; padding: 40px 20px; text-align: center;
+    }
+    footer .logo { color: #e67e22; font-size: 22px; margin-bottom: 10px; display: inline-block; }
+    footer a { color: #e67e22; margin: 0 10px; font-size: 14px; }
+    footer .socials img { width: 24px; margin: 10px; }
+
+  /* ...your existing styles above... */
+
+
+  /* Modal background */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Modal box */
+  .modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+    max-width: 400px;
+    width: 90%;
+  }
+
+  /* Headings */
+  .modal-content h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  .modal-content p {
+    color: #555;
+    margin-bottom: 20px;
+  }
+
+  /* Store buttons container */
+  .store-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+
+  /* Store buttons */
+  .store-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  .store-btn img {
+    width: 150px;
+    height: auto;
+  }
+  .store-btn:hover {
+    transform: scale(1.05);
+  }
+
+  /* "No" button */
+  .no-btn {
+    background-color: #dc3545;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 15px;
+    transition: background 0.3s ease;
+  }
+  .no-btn:hover {
+    background-color: #b02a37;
+  }
+.promo-gallery {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin: 40px auto 80px auto;
+  max-width: 1100px;
+  padding: 0 20px;
+}
+
+.promo-card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  overflow: hidden;
+  display: inline-block;
+  padding:0;
+}
+
+.promo-card img {
+  width: 100%;
+  height: auto;
+  max-height: 100%; /* keeps the image inside box */
+  object-fit: contain; /* ensures image is fully visible */
+  border-radius: 20px;
+  display: block;
+}
+
+  </style>
+</head>
+<body>
+
+
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">BHUKK</div>
+    <nav>
+      <ul>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#partners">For Partners</a></li>
+        <li><a href="#about">About Us</a></li>
+      </ul>
+    </nav>
+    <a href="#" class="download-btn">Download App</a>
+
+    <!-- ✅ Corrected Age Verification Modal -->
+<div id="ageModal" class="modal">
+  <div class="modal-content">
+    <h2>Are you of legal drinking age in your state?</h2>
+    <p>Please select your preferred app store:</p>
+
+    <div class="store-buttons">
+      <!-- ✅ Working Google Play link -->
+      <button id="yesPlay" class="store-btn google-btn">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+             alt="Google Play"
+             style="width:150px; height:auto;" />
+      </button>
+
+      <!-- ✅ Working App Store link + fixed image -->
+      <button id="yesApple" class="store-btn apple-btn">
+        <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
+             alt="App Store"
+             style="width:140px; height:auto;" />
+      </button>
+    </div>
+
+    <button id="noBtn" class="no-btn">No, I am not</button>
+  </div>
+</div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <video autoplay muted loop playsinline class="hero-video">
+        <source src="hero-video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+     <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Kolkata's Finest Liquor, Delivered in Minutes.</h1>
+      <p>Explore premium craft and classic liquors from the best shops in the city.</p>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how-it-works">
+    <h2 style="font-weight: 700;">How It Works</h2>
+    <div class="steps">
+      <div class="step">
+        <img src="https://img.icons8.com/ios-filled/100/000000/verified-account.png" alt="">
+        <h4>Verify Age</h4>
+        <p>Quick & secure verification using Aadhaar/PAN.</p>
+      </div>
+      <div class="step">
+        <img src="https://img.icons8.com/ios-filled/100/000000/beer-bottle.png" alt="">
+        <h4>Browse & Select</h4>
+        <p>Choose from a wide range of premium liquors.</p>
+      </div>
+      <div class="step">
+        <img src="https://img.icons8.com/ios-filled/100/000000/delivery.png" alt="">
+        <h4>Pay & Track</h4>
+        <p>Secure online payment and live order tracking.</p>
+      </div>
+    </div>
+    <video width="300" autoplay loop muted style="margin-top:40px;border-radius:10px;">
+      <source src="customer-tutorial.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </section>
+
+  <!-- IMAGE SECTION -->
+<!-- PROMO GALLERY SECTION -->
+<div class="promo-gallery">
+  <div class="promo-card">
+    <img src="bhukk-promo1.jpg" alt="Promo 1">
+  </div>
+  <div class="promo-card">
+    <img src="bhukk-promo2.jpg" alt="Promo 2">
+  </div>
+  <div class="promo-card">
+    <img src="bhukk-promo3.jpg" alt="Promo 3">
+  </div>
+</div>
+  <!-- FEATURED LIQUORS -->
+  <section class="featured">
+    <h2>Featured Liquors</h2>
+    <div class="products">
+      <div class="product-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShds9vnsrt2mSmoXYhueg4A2aAf9Sp5omRNw&s" alt="">
+        <div class="info">
+          <h4>Golden Craft IPA</h4>
+          <p>Craft Beer – ₹350</p>
+        </div>
+      </div>
+      <div class="product-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6ruhac7lJBPt5Vb8KqzvrJifbaMn-6qcFLg&s" alt="">
+        <div class="info">
+          <h4>Oak Barrel Whiskey</h4>
+          <p>Whiskey – ₹1450</p>
+        </div>
+      </div>
+      <div class="product-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAZUK4EmrWvFHl4a6NN6ENXP7szMmi6Q5JPA&s" alt="">
+        <div class="info">
+          <h4>Red Wine Classic</h4>
+          <p>Wine – ₹950</p>
+        </div>
+      </div>
+      <div class="product-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPMgM2R0SYCAaL700eg_11cKtzBozZyKktyQ&s" alt="">
+        <div class="info">
+          <h4>Premium Vodka</h4>
+          <p>Vodka – ₹1100</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNERS -->
+  <section id="partners">
+    <h2 style="font-weight: 700;">Grow Your Business with BHUKK</h2>
+    <div class="partner-points">
+      <p>• Wider Customer Reach</p>
+      <p>• Seamless Order Management</p>
+      <p>• Reliable Delivery Fleet</p>
+    </div>
+    <a href="partners.html" class="partner-btn">Learn More & Sign Up</a>
+  </section>
+
+  <!-- FOOTER -->
+<footer id="about">
+  <div class="logo">BHUKK</div>
+  <p>
+    BHUKK is Kolkata’s first on-demand liquor delivery platform built to bridge the gap between local retailers and consumers. 
+    We curate premium selections from the city’s most trusted stores and deliver them safely and swiftly to your doorstep. 
+    Our mission is to redefine how Kolkata enjoys its favorite drinks — blending convenience, authenticity, and responsibility. 
+    With secure digital payments, real-time tracking, and age verification, BHUKK ensures every experience is smooth, legal, and delightful.
+  </p>
+  <div style="margin: 15px 0;">
+    <a href="terms.html">Terms</a> | 
+    <a href="privacy.html">Privacy</a>
+  </div>
+  <div class="socials">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/facebook.png" alt="">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/instagram-new.png" alt="">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/twitter.png" alt="">
+  </div>
+  <p style="font-size: 14px;">© 2025 BHUKK. All Rights Reserved.</p>
+</footer>
+
+
+  <!-- JAVASCRIPT -->
+  <script>
+  const ageModal = document.getElementById("ageModal");
+  const yesPlay = document.getElementById("yesPlay");
+  const yesApple = document.getElementById("yesApple");
+  const noBtn = document.getElementById("noBtn");
+  const downloadBtn = document.querySelector(".download-btn");
+
+  // Detect device type
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  const isAndroid = /android/i.test(userAgent);
+  const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+
+  // When "Download App" clicked
+  downloadBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    ageModal.style.display = "flex";
+
+    // Show only the right button
+    if (isAndroid) {
+      yesPlay.style.display = "inline-block";
+      yesApple.style.display = "none";
+    } else if (isIOS) {
+      yesPlay.style.display = "none";
+      yesApple.style.display = "inline-block";
+    } else {
+      // Show both for desktop or unknown device
+      yesPlay.style.display = "inline-block";
+      yesApple.style.display = "inline-block";
+    }
+  });
+
+  // Redirects
+  yesPlay.addEventListener("click", () => {
+    window.location.href = "https://play.google.com/apps"; // Replace with your real Play Store link
+  });
+
+  yesApple.addEventListener("click", () => {
+    window.location.href = "https://apps.apple.com/in/app/apple-store/id375380948"; // Replace with your real App Store link
+  });
+
+  noBtn.addEventListener("click", () => {
+    alert("Sorry, you must be of legal drinking age to continue.");
+    ageModal.style.display = "none";
+  });
+
+  // Close modal when clicking outside
+  window.addEventListener("click", (event) => {
+    if (event.target === ageModal) {
+      ageModal.style.display = "none";
+    }
+  });
+</script>
+</body>
+</html>
